@@ -4,8 +4,10 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.gb.spring_web_hw5.domain.NoTaskException;
 import ru.gb.spring_web_hw5.domain.Task;
+import ru.gb.spring_web_hw5.domain.TaskStatus;
 import ru.gb.spring_web_hw5.repository.TaskRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -39,9 +41,13 @@ public class TaskService {
         if(oldTask!=null){
             oldTask.setDescription(updatedTask.getDescription());
             oldTask.setStatus(String.valueOf(updatedTask.getStatus()));
-            oldTask.setCreatingTime(updatedTask.getCreatingTime());
+            oldTask.setCreatingTime(LocalDateTime.now());
             return repository.save(oldTask);
         }else{throw new NoTaskException("Task with id = " + id + " has not been found in database");}
 
+    }
+
+    public List<Task> getTaskByStatus(String status) {
+        return repository.findAll().stream().filter(it-> String.valueOf(it.getStatus()).equals(status)).toList();
     }
 }

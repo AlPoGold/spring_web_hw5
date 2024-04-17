@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.gb.spring_web_hw5.service.TaskService;
 import ru.gb.spring_web_hw5.domain.Task;
+import ru.gb.spring_web_hw5.domain.TaskStatus;
 
 import java.util.List;
 
@@ -21,5 +22,20 @@ public class TaskController {
     @PostMapping
     public Task createTask(@RequestBody Task task) {
         return service.addTask(task.getDescription(), String.valueOf(task.getStatus()));
+    }
+
+    @GetMapping("/status/{status}")
+    public List<Task> getTasksByStatus(@PathVariable String status){
+        return service.getTaskByStatus(status.toUpperCase());
+    }
+
+    @PutMapping("/{id}")
+    public Task updateTaskStatus(@PathVariable Long id, @RequestBody Task task){
+        return service.updateTask(id, task);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteTask(@PathVariable Long id){
+        service.deleteTask(service.getTaskById(id));
     }
 }
