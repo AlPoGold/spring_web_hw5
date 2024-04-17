@@ -6,6 +6,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Entity
+@EntityListeners(TaskEntityListener.class)
 @Table(name="tasks")
 @Data
 public class Task {
@@ -22,12 +23,13 @@ public class Task {
     @Column(name="created")
     private LocalDateTime creatingTime;
 
-
-    @Transient
-    private TaskEntityListener taskEntityListener;
+//    @Transient
+//    private TaskEntityListener taskEntityListener;
 
     public void setStatus(String status) {
         this.status = TaskStatus.fromString(status);
     }
+
+
 
 }

@@ -19,7 +19,7 @@ public class TaskController {
     }
 
     @PostMapping
-    public Task createTask(String description, String status){
-        return service.addTask(description, status);
+    public Task createTask(@RequestBody Task task) {
+        return service.addTask(task.getDescription(), String.valueOf(task.getStatus()));
     }
 }
