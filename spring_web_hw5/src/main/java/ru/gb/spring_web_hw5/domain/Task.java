@@ -23,8 +23,6 @@ public class Task {
     @Column(name="created")
     private LocalDateTime creatingTime;
 
-//    @Transient
-//    private TaskEntityListener taskEntityListener;
 
     public void setStatus(String status) {
         this.status = TaskStatus.fromString(status);
