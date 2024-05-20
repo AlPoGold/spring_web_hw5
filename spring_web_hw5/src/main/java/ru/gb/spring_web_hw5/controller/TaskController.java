@@ -1,5 +1,7 @@
 package ru.gb.spring_web_hw5.controller;
 
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.Metrics;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.gb.spring_web_hw5.service.TaskService;
@@ -12,6 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @RequestMapping("/tasks")
 public class TaskController {
+    private final Counter addTaskCounter = Metrics.counter("add_task_count");
     private final TaskService service;
 
     @GetMapping
@@ -21,6 +24,7 @@ public class TaskController {
 
     @PostMapping
     public Task createTask(@RequestBody Task task) {
+        addTaskCounter.increment();
         return service.addTask(task.getDescription(), String.valueOf(task.getStatus()));
     }
 
